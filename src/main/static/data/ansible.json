@@ -1,0 +1,19 @@
+{"Ubuntu16.04":{
+"mysql": ["yauh.mysql", "ngpestelos.mysql", "manala.mysql", "robr3rd.repo-mysql"],
+"tomcat": ["daniel-rhoades.tomcat", "telusdigital.tomcat", "daniel-rhoades.hippo-tomcat", "hectcastro.tomcat"],
+"docker": ["kbrebanov.docker", "nexeck.docker", "rack-roles.docker", "wolfeidau.docker_ubuntu"],
+"git": ["davidkarban.git", "andrewrothstein.git"],
+        "nginx": [
+            "jeqo.nginx", 
+            "laggyluke.nginx", 
+            "palkan.nginx", 
+            "sansible.nginx", 
+            "pcextreme.nginx"
+        ],
+        "wordpress": [
+            "darthwade.wordpress", 
+            "SystemOneSolutions.Wordpress"
+        ],
+"nodejs": ["ruiznato.nodejs", "mrlesmithjr.nodejs", "SimpliField.node", "gotansible.nodejs", "wunzeco.nodejs", "manala.nodejs", "f500.nodejs"],
+"mongodb": ["mrlesmithjr.mongodb"]
+}

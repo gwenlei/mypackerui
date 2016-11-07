@@ -1,0 +1,361 @@
+<html>
+<head>
+<meta   http-equiv="Expires"   CONTENT="0">
+<meta   http-equiv="Cache-Control"   CONTENT="no-cache">
+<meta   http-equiv="Pragma"   CONTENT="no-cache">
+<title>Packer build page</title>
+<link href="static/css/bootstrap.min.css" rel="stylesheet">
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/test2.js"></script>
+<script type="text/javascript">
+filename="static/data/dataqemu.json"
+settingfilename="static/data/settingfile.json"
+ansiblefilename="static/data/ansibleroles.json"
+setcloudstackname="static/data/settingfilecs.json"
+$(document).ready(function(){
+			$.getJSON(setcloudstackname,function(result){
+                                $.each(result.cloudstack, function(i, field){
+                                        $("#setcloudstack").append("<option value='"+field+"'>"+field+"</option>");
+				});
+                        });
+			$.getJSON(settingfilename,function(result){
+                                $.each(result.xenserver, function(i, field){
+                                        $("#settingfile").append("<option value='"+field+"'>"+field+"</option>");
+				});
+                        });
+			$.getJSON(filename,function(result){
+                                $.each(result.jsonmap, function(i, field){
+                                        $("#ostype").append("<option value='"+i+"'>"+i+"</option>");
+				});
+                                document.getElementById("ostype").options[0].selected=true;
+                                $.each(result.scriptmap, function(i, field){
+                                        if((document.getElementById("ostype").value).indexOf(i.substring(0,i.indexOf("-")))>=0) {
+                                          adddiv("software",field);
+                                        }
+			        });
+		        });
+			$.getJSON(ansiblefilename,function(result){
+                                $.each(result, function(i, field){
+                                        if((document.getElementById("ostype").value).indexOf(i)>=0) {
+                                          $.each(field, function(i, field){
+                                                adddiv("ansible",i);
+                                          });
+                                        }
+				});
+                        });
+});
+function changebuildtype(x)
+{
+if(document.getElementById(x).value=="qemu"){
+document.getElementById("vmname").value=(document.getElementById("ostype").value).replace(/\./g, "-")+".qcow2";
+}
+if(document.getElementById(x).value=="xenserver" || document.getElementById(x).value=="virtualbox"){
+document.getElementById("vmname").value=(document.getElementById("ostype").value).replace(/\./g, "-");
+}
+    while (document.getElementById("settingfile").hasChildNodes())
+    {
+      document.getElementById("settingfile").removeChild(document.getElementById("settingfile").firstChild);
+    }
+
+
+			var jq=$.getJSON(settingfilename,function(result){
+                                if(document.getElementById(x).value=="qemu"){
+                                $.each(result.qemu, function(i, field){
+                                        $("#settingfile").append("<option value='"+field+"'>"+field+"</option>");
+					});
+
+                                }else if(document.getElementById(x).value=="xenserver"){
+                                $.each(result.xenserver, function(i, field){
+                                        $("#settingfile").append("<option value='"+field+"'>"+field+"</option>");
+					});
+                                }else if(document.getElementById(x).value=="virtualbox"){
+                                $.each(result.virtualbox, function(i, field){
+                                        $("#settingfile").append("<option value='"+field+"'>"+field+"</option>");
+					});
+                           }
+                           document.getElementById("settingfile").options[0].selected=true;
+                           filename=document.getElementById("settingfile").options[0].text;
+                        });
+
+jq.complete(function(){
+changesettingfile(filename)
+});
+
+}
+
+function changesettingfile(filename)
+{
+    while (document.getElementById("ostype").hasChildNodes())
+    {
+      document.getElementById("ostype").removeChild(document.getElementById("ostype").firstChild);
+    }
+    while (document.getElementById("software").hasChildNodes())
+    {
+      document.getElementById("software").removeChild(document.getElementById("software").firstChild);
+    }
+
+			var jq2=$.getJSON(filename,function(result){
+                                $.each(result.jsonmap, function(i, field){
+                                        $("#ostype").append("<option value='"+i+"'>"+i+"</option>");
+					});
+                                document.getElementById("ostype").options[0].selected=true;
+                                $.each(result.scriptmap, function(i, field){
+                                        if((document.getElementById("ostype").value).indexOf(i.substring(0,i.indexOf("-")))>=0) {
+                                          adddiv("software",field);
+                                        }
+			        });
+                        var jq3=$.getJSON(ansiblefilename,function(result){
+                                $.each(result, function(i, field){
+                                        if((document.getElementById("ostype").value).indexOf(i)>=0) {
+                                          $.each(field, function(i, field){
+                                                adddiv("ansible",i);
+                                          });
+                                        }
+				});
+                        });
+		});
+jq2.complete(function(){
+changeset("ostype")
+});
+
+}
+
+function changeset(x)
+{
+if(document.getElementById("buildtype").value=="qemu"){
+document.getElementById("vmname").value=(document.getElementById(x).value).replace(/\./g, "-")+".qcow2";
+}else {
+document.getElementById("vmname").value=(document.getElementById(x).value).replace(/\./g, "-");
+}
+if((document.getElementById(x).value).indexOf("Windows")>=0){
+  document.getElementById("user").value="Administrator";
+  document.getElementById("disksize").value="20";
+  document.getElementById("part").value="C";
+  document.getElementById("size").value="18";
+}else{
+  document.getElementById("user").value="root";
+  document.getElementById("part").value="/";
+  document.getElementById("size").value="5";
+}
+    while (document.getElementById("software").hasChildNodes())
+    {
+      document.getElementById("software").removeChild(document.getElementById("software").firstChild);
+    }
+filename=document.getElementById("settingfile").value
+			$.getJSON(filename,function(result){
+                                $.each(result.scriptmap, function(i, field){
+                                        if((document.getElementById("ostype").value).indexOf(i.substring(0,i.indexOf("-")))>=0) {
+                                          adddiv("software",field);
+                                        }
+			        });
+		        });
+
+    while (document.getElementById("ansible").hasChildNodes())
+    {
+      document.getElementById("ansible").removeChild(document.getElementById("ansible").firstChild);
+    }
+			$.getJSON(ansiblefilename,function(result){
+                                $.each(result, function(i, field){
+                                        if((document.getElementById("ostype").value).indexOf(i)>=0) {
+                                          $.each(field, function(i, field){
+                                                adddiv("ansible",i);
+                                          });
+                                        }
+				});
+                        });
+
+}
+divnum=1;
+function adddiv(id,field)
+{
+var parttext1div=document.createElement("div");
+parttext1div.id=id+"div"+divnum;
+parttext1div.className="checkbox";
+var label1=document.createElement("label");
+label1.id="label"+divnum;
+var parttext1=document.createElement("input");
+parttext1.id=id+"box"+divnum;
+parttext1.name=id;
+parttext1.type="checkbox";
+parttext1.value=field;
+document.getElementById(id).appendChild(parttext1div);
+document.getElementById(parttext1div.id).appendChild(label1);
+document.getElementById(label1.id).appendChild(parttext1);
+label1.innerHTML=label1.innerHTML+field;
+divnum=divnum+1;
+}
+
+</script>
+</head>
+<body>
+</br>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+			<form class="form-horizontal"  action="/build" method="post">
+
+				<div class="form-group">
+					<label for="buildtype" class="col-sm-2 control-label">Buildtype</label>
+					<div class="col-sm-10">
+						<select class="form-control"  id="buildtype" name="buildtype" onchange="changebuildtype(this.id)">
+                                                <option value="xenserver">xenserver</option>
+                                                <option value="qemu">qemu</option>
+                                                <option value="virtualbox">virtualbox</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="settingfile" class="col-sm-2 control-label">Settingfile</label>
+					<div class="col-sm-10">
+						<select class="form-control"  id="settingfile" name="settingfile" onchange="changesettingfile(this.value)" >
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="ostype" class="col-sm-2 control-label">Ostype</label>
+					<div class="col-sm-10">
+						<select class="form-control"  id="ostype" name="ostype" onchange="changeset(this.id)">
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="user" class="col-sm-2 control-label">Vmname</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="vmname" name="vmname" value="CentOS6-6">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="user" class="col-sm-2 control-label">User</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="user" name="user" value="root">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-2 control-label">Password</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="password" name="password" value="engine">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="disksize" class="col-sm-2 control-label">Disksize</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="disksize" name="disksize" value="6">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="addpart" class="col-sm-2 control-label">Partitions</label>
+					<div class="col-sm-2">
+						<button type="button" class="btn btn-default" id="addpart" onclick="addtext('partition')">add</button>
+					</div>				
+				</div>
+				<div id="div1" class="form-group" >
+
+					<div id="partition" class="row">
+						<div class="col-sm-offset-2 col-sm-5">
+							<input type="text" class="form-control" id="part" name="part" value="/">
+						</div>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="size" name="size" value="5">   
+						</div>
+
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="software" class="col-sm-2 control-label">Software</label>
+					<div class="col-sm-offset-2 col-sm-10" id="software">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="ansible" class="col-sm-2 control-label">Ansible</label>
+					<div class="col-sm-offset-2 col-sm-10" id="ansible">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="headless" class="col-sm-2 control-label">Headless</label>
+					<div class="col-sm-offset-2 col-sm-10">
+
+<div class="radio">
+   <label>
+      <input type="radio" name="headless" id="optionsRadios1" 
+         value="false" checked>false
+   </label>
+   <label>
+      <input type="radio" name="headless" id="optionsRadios2" 
+         value="true">
+         true
+   </label>
+</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="headless" class="col-sm-2 control-label">Compat</label>
+					<div class="col-sm-offset-2 col-sm-10">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="compat" value="0.1" > 0.1
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="headless" class="col-sm-2 control-label">bzip2</label>
+					<div class="col-sm-offset-2 col-sm-10">
+
+<div class="radio">
+   <label>
+      <input type="radio" name="bzip2" id="optionsbzip1" 
+         value="Yes">Yes
+   </label>
+   <label>
+      <input type="radio" name="bzip2" id="optionsbzip2" 
+         value="No" checked>
+         No
+   </label>
+</div>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label for="buildtype" class="col-sm-2 control-label">setcloudstack</label>
+					<div class="col-sm-10">
+						<select class="form-control"  id="setcloudstack" name="setcloudstack" >
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="user" class="col-sm-2 control-label">templatename</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="templatename" name="templatename" value="templatename">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="user" class="col-sm-2 control-label">templatedisplaytext</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="templatedisplaytext" name="templatedisplaytext" value="templatedisplaytext">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="user" class="col-sm-2 control-label">templateostype</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="templateostype" name="templateostype" value="centos%6.5%64">
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>
