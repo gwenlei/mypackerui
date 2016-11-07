@@ -99,7 +99,7 @@ func main() {
 func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("index.html")
+		t, _ := template.ParseFiles("static/html/index.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -113,7 +113,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 func setdat(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("dat.html")
+		t, _ := template.ParseFiles("static/html/dat.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -153,7 +153,7 @@ func setdat(w http.ResponseWriter, r *http.Request) {
 func setansible(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("ansible.html")
+		t, _ := template.ParseFiles("static/html/ansible.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -194,7 +194,7 @@ func setansible(w http.ResponseWriter, r *http.Request) {
 func build(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("build.html")
+		t, _ := template.ParseFiles("static/html/build.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -216,7 +216,7 @@ func build(w http.ResponseWriter, r *http.Request) {
 func report(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("report.html")
+		t, _ := template.ParseFiles("static/html/report.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -707,7 +707,7 @@ func UploadServer(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("upload.html")
+		t, _ := template.ParseFiles("static/html/upload.html")
 		t.Execute(w, nil)
 	} else {
 		r.ParseMultipartForm(32 << 20) //在使用r.MultipartForm前必须先调用ParseMultipartForm方法，参数为最大缓存
@@ -754,7 +754,7 @@ func UploadServer(w http.ResponseWriter, r *http.Request) {
 func searchroles(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("search.html")
+		t, _ := template.ParseFiles("static/html/search.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -1121,7 +1121,7 @@ func callfilter(timest string) {
 func deleteroles(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("search.html")
+		t, _ := template.ParseFiles("static/html/search.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -1146,7 +1146,7 @@ func deleteroles(w http.ResponseWriter, r *http.Request) {
 func register(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("register.html")
+		t, _ := template.ParseFiles("static/html/register.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -1231,7 +1231,7 @@ func callregister(timest string) {
 func templatelist(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("templatelist.html")
+		t, _ := template.ParseFiles("static/html/templatelist.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
@@ -1278,7 +1278,7 @@ func calldelete(timest string) {
 func setcloudstack(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("setcloudstack.html")
+		t, _ := template.ParseFiles("static/html/setcloudstack.html")
 		t.Execute(w, nil)
 	} else {
 		//请求的是登陆数据，那么执行登陆的逻辑判断
