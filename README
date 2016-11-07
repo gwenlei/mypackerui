@@ -1,0 +1,11 @@
+## environment
+centos7.2+packer+golang+bootstrap
+## compile & run
+```
+cd src/main
+sh build.sh
+./build
+```
+## page http://ip:9090
+## config file dir
+src/main/static/data
