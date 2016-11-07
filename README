@@ -1,3 +1,5 @@
+## introduction
+mypackerui is made for automake vm templates.
 ## environment
 centos7.2+packer+golang+bootstrap
 ## compile & run
