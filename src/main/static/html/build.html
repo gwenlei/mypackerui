@@ -53,10 +53,7 @@ document.getElementById("vmname").value=(document.getElementById("ostype").value
 if(document.getElementById(x).value=="xenserver" || document.getElementById(x).value=="virtualbox"){
 document.getElementById("vmname").value=(document.getElementById("ostype").value).replace(/\./g, "-");
 }
-    while (document.getElementById("settingfile").hasChildNodes())
-    {
-      document.getElementById("settingfile").removeChild(document.getElementById("settingfile").firstChild);
-    }
+    $("#settingfile").empty();
 
 
 			var jq=$.getJSON(settingfilename,function(result){
@@ -86,14 +83,8 @@ changesettingfile(filename)
 
 function changesettingfile(filename)
 {
-    while (document.getElementById("ostype").hasChildNodes())
-    {
-      document.getElementById("ostype").removeChild(document.getElementById("ostype").firstChild);
-    }
-    while (document.getElementById("software").hasChildNodes())
-    {
-      document.getElementById("software").removeChild(document.getElementById("software").firstChild);
-    }
+    $("#ostype").empty();
+    $("#software").empty();
 
 			var jq2=$.getJSON(filename,function(result){
                                 $.each(result.jsonmap, function(i, field){

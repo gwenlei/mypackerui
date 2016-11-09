@@ -107,10 +107,7 @@ function changefile(name)
 filename=name;
 var divs= new Array("jsonmap","cfgmap","isomap","md5map","scriptmap","resultmap","servermap","floppymap");
 for(var key in divs){
-    while (document.getElementById(divs[key]).hasChildNodes())
-    {
-      document.getElementById(divs[key]).removeChild(document.getElementById(divs[key]).firstChild);
-    }
+    $("#"+divs[key]).empty();
 }
 			$.getJSON(filename,function(result){
                                 $.each(result.jsonmap, function(i, field){
